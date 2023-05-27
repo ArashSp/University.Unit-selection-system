@@ -7,10 +7,10 @@
           <p class="mb-7">
             لطفا برای انتخاب واحد وارد سامانه شوید.
           </p>
-          <v-text-field v-model="this.username" variant="outlined" type="text" label=" نام کاربری"
+          <v-text-field v-model="username" variant="outlined" type="text" label=" نام کاربری"
             class="mx-lg-5 lefted-input"></v-text-field>
 
-          <v-text-field name="password" v-model="this.password" variant="outlined" label="رمز عبور"
+          <v-text-field name="password" v-model="password" variant="outlined" label="رمز عبور"
             :append-inner-icon="value ? 'mdi-eye' : 'mdi-eye-off'" @click:append-inner="() => (value = !value)"
             :type="value ? 'password' : 'text'" class="mx-lg-5 lefted-input"></v-text-field>
 

@@ -1,28 +1,25 @@
-// Composables
-import { createRouter, createWebHistory } from "vue-router";
+import {
+  createMemoryHistory,
+  createRouter as _createRouter,
+  createWebHistory,
+} from "vue-router";
 
-const routes = [
-  {
-    path: "/",
-    component: () => import("@/layouts/default/Default.vue"),
-    children: [
+export { createRouter };
+
+function createRouter() {
+  return _createRouter({
+    // use appropriate history implementation for server/client
+    // import.meta.env.SSR is injected by Vite.
+    history: import.meta.env.SSR ? createMemoryHistory() : createWebHistory(),
+    routes: [
       {
-        path: "",
-        name: "Home",
-        component: () => import("@/views/Home.vue"),
+        path: "/",
+        component: () => import("@/pages/index/index.page.vue"),
       },
       {
         path: "/Selection",
-        name: "Selection",
-        component: () => import("@/views/Selection.vue"),
+        component: () => import("@/pages/Selection/index.page.vue"),
       },
     ],
-  },
-];
-
-const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes,
-});
-
-export default router;
+  });
+}

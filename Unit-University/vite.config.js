@@ -1,34 +1,25 @@
-// Plugins
 import vue from "@vitejs/plugin-vue";
-import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 
-// Utilities
+import ssr from "vite-plugin-ssr/plugin";
 import { defineConfig } from "vite";
 import { fileURLToPath, URL } from "node:url";
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    vue({
-      template: { transformAssetUrls },
-    }),
-    // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vite-plugin
-    vuetify({
-      autoImport: true,
-      styles: {
-        configFile: "src/styles/settings.scss",
-      },
-    }),
-  ],
+  plugins: [vue(), ssr({ prerender: true })],
+  build: { target: "esnext" },
+  ssr: { noExternal: ["vuetify"] },
   define: { "process.env": {} },
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
+      process: "process/browser",
+      stream: "stream-browserify",
+      zlib: "browserify-zlib",
+      util: "util",
     },
     extensions: [".js", ".json", ".jsx", ".mjs", ".ts", ".tsx", ".vue"],
   },
   server: {
     port: 8081,
-    host: true,
   },
 });

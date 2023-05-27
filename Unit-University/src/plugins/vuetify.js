@@ -5,13 +5,19 @@ import "vuetify/styles";
 // Composables
 import { createVuetify } from "vuetify";
 
+import { fa } from 'vuetify/locale'
+
 export default createVuetify({
+  locale: {
+    locale: 'fa',
+    messages: { fa }
+  },
   theme: {
     themes: {
       light: {
         colors: {
-          primary: "#1867C0",
-          secondary: "#5CBBF6",
+          primary: "#ffffff",
+          secondary: "#000000",
         },
       },
     },
