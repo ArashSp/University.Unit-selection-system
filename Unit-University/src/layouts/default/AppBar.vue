@@ -3,8 +3,10 @@
     <v-app-bar class="py-2 font">
       <v-toolbar class="bg-white py-2">
         <v-app-bar-nav-icon class="d-md-none d-lg-none" @click="drawer = !drawer"></v-app-bar-nav-icon>
-        <v-toolbar-title class="mr-9 text-h5" @click="this.$router.push({ name: 'Home' })" style="color: #EC407A;">خانه</v-toolbar-title>
-        <v-toolbar-items v-for="item in this.navs" class="my-4 d-none d-md-flex d-lg-flex">
+        <v-toolbar-title> <router-link :to="{ name: 'Home' }"
+            style="text-decoration: none !important;">انتخاب واحد دانشجویان </router-link>
+        </v-toolbar-title>
+        <v-toolbar-items v-for="item in this.navs" class=" d-none d-md-flex d-lg-flex">
           <v-btn variant="text" block v-if="item.mobile === false"><router-link :to="{ name: item.RouteName }"
               style="text-decoration: none !important; color: black;">{{ item.name }}</router-link></v-btn>
           <v-divider vertical v-if="item.divider === true"></v-divider>
@@ -32,25 +34,19 @@ export default {
     return {
       navs: [
         {
-          name: "خانه",
+          name: "انتخاب واحد",
+          divider: false,
+          mobile: false,
+          RouteName: "Selection",
+        },
+        {
+          name: "درباره ما",
           divider: false,
           mobile: false,
           RouteName: "",
         },
         {
-          name: "فرصت های سرمایه گذاری",
-          divider: false,
-          mobile: false,
-          RouteName: "",
-        },
-        {
-          name: "فرصت های شغلی ",
-          divider: false,
-          mobile: false,
-          RouteName: "",
-        },
-        {
-          name: "تماس با ما",
+          name: " پشتیبانی ",
           divider: false,
           mobile: false,
           RouteName: "",
