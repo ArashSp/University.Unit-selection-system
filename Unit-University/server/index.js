@@ -45,7 +45,7 @@ async function startServer() {
 
   app.use(express.json({ limit: "50mb" }));
 
-  app.post("/minIO/uploadPhoto", (req, res) => {
+  app.post("/Account/Validate", (req, res) => {
     // and access keys as shown below.
     var minioClient = new Minio.Client({
       endPoint: "minio-dev.darkube.app",

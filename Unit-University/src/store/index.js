@@ -6,22 +6,22 @@ function createStore() {
   const store = Vuex.createStore({
     state: {
       user: {
-        phoneNumber: "",
+        token: "",
       },
     },
     getters: {
-      getPhone: (state) => {
-        return state.user.phoneNumber;
+      getToken: (state) => {
+        return state.user.token;
       },
     },
     mutations: {
-      changePhone(state, payload) {
-        state.user.phoneNumber = payload;
+      SET_TOKEN(state, payload) {
+        state.user.token = payload;
       },
     },
     actions: {
-      changePhonenumber(context, payload) {
-        context.commit("changePhone", payload);
+      setToken(context, payload) {
+        context.commit("SET_TOKEN", payload);
       },
     },
   });

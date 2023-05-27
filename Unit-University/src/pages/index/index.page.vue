@@ -16,10 +16,16 @@
 
           <v-row>
             <v-col cols="12 text-center">
-              <v-btn variant="outlined" class="bg-primary px-15 mt-5 mb-15" size="large" aria-label="تایید"
+              <v-btn variant="outlined" class="bg-primary px-15 mt-5 " size="large" aria-label="تایید"
                 @click="validateInfo()">
                 ورود
-              </v-btn></v-col>
+              </v-btn>
+            </v-col>
+            <v-col cols="12 text-center">
+              <v-btn variant="text" class="my-5 text-secondary text-body-2" @click="ForgetPass()">
+                نام کاربری یا رمز عبور خود را فراموش کردید؟
+              </v-btn>
+            </v-col>
           </v-row>
         </v-col>
       </v-row>
@@ -30,6 +36,7 @@
 </template>
 
 <script>
+import axios from "axios";
 
 export default {
   data() {
@@ -40,8 +47,21 @@ export default {
     }
   },
   methods: {
-    validateInfo() {
-
+    async validateInfo() {
+      // const data = JSON.stringify(element);           make data into Json
+      await axios
+        .post("/Account/Validate", data, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.status === 200) {
+            uploadprogress.value =
+              uploadprogress.value + stepProgressAmount.value;
+          }
+        });
     }
   },
 }
