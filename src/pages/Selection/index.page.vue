@@ -37,6 +37,7 @@ export default {
                 },
             }).then((res) => {
                 console.log(res)
+                this.$store.dispatch('setList', res.data.subjectList)
             })
     },
 }
