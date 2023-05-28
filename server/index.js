@@ -2,7 +2,6 @@ const express = require("express");
 const compression = require("compression");
 const { renderPage } = require("vite-plugin-ssr/server");
 
-
 const isProduction = process.env.NODE_ENV === "production";
 const root = `${__dirname}/..`;
 
@@ -42,6 +41,23 @@ async function startServer() {
 
   const port = process.env.PORT || 8081;
 
+  const SubjectList = [
+    {
+      name: "ریاضی",
+      unit: "2",
+      teacherName: " احمد اصغری",
+      ClassDates: "چهارشنبه ",
+      ClassStartTime: "14:30",
+      ClassEndTime: "16",
+      ExamDate: "30",
+      ExamDay: "شنبه",
+      ExamMonth: "خرداد",
+      ExamTime: "8",
+      quota: 30,
+      classPlace: "ساختمان علوم پایه کلاس 611",
+    },
+  ];
+
   app.use(express.json({ limit: "50mb" }));
 
   app.post("/Account/Validate", (req, res) => {
@@ -61,8 +77,15 @@ async function startServer() {
         accesslevel: "Admin",
       });
     } else {
-      res.json({ success: false , errorMessage: "نام کاربری یا رمز عبور اشتباه است" });
+      res.json({
+        success: false,
+        errorMessage: "نام کاربری یا رمز عبور اشتباه است",
+      });
     }
+  });
+
+  app.post("/Selection/SubjectData", (req, res) => {
+    res.json({ subjectList: SubjectList });
   });
 
   app.listen(port);

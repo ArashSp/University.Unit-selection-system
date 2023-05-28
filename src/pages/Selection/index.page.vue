@@ -7,6 +7,7 @@
 <script>
 import Swal from 'sweetalert2'
 import { mapGetters } from 'vuex'
+import axios from "axios";
 
 export default {
     computed: {
@@ -14,8 +15,7 @@ export default {
             Accesslevel: 'getAccessLevel'
         })
     },
-    mounted() {
-
+    async mounted() {
         if (this.Accesslevel === "") {
             Swal.fire({
                 text: "برای دسترسی به این بخش وارد سامانه شوید",
@@ -24,6 +24,20 @@ export default {
             })
             this.$router.push('/')
         }
+
+        let obj = {
+            request: "SelectionSubjects",
+        }
+        // make data into Json
+        const data = JSON.stringify(obj);
+        await axios
+            .post("/Selection/SubjectData", data, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }).then((res) => {
+                console.log(res)
+            })
     },
 }
 </script>
