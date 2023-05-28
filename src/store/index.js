@@ -6,22 +6,22 @@ function createStore() {
   const store = Vuex.createStore({
     state: {
       user: {
-        token: "",
+        Accesslevel: "",
       },
     },
     getters: {
-      getToken: (state) => {
-        return state.user.token;
+      getAccessLevel: (state) => {
+        return state.user.Accesslevel;
       },
     },
     mutations: {
-      SET_TOKEN(state, payload) {
-        state.user.token = payload;
+      SET_ACCESS_LEVEL(state, payload) {
+        state.user.Accesslevel = payload;
       },
     },
     actions: {
-      setToken(context, payload) {
-        context.commit("SET_TOKEN", payload);
+      setAccess(context, payload) {
+        context.commit("SET_ACCESS_LEVEL", payload);
       },
     },
   });

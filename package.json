@@ -25,6 +25,7 @@
     "process": "^0.11.10",
     "roboto-fontface": "*",
     "stream-browserify": "^3.0.0",
+    "sweetalert2": "^11.7.5",
     "util": "^0.12.5",
     "vite-plugin-node-polyfills": "^0.8.1",
     "vite-plugin-node-stdlib-browser": "^0.2.1",

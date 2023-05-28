@@ -2,6 +2,7 @@ const express = require("express");
 const compression = require("compression");
 const { renderPage } = require("vite-plugin-ssr/server");
 
+
 const isProduction = process.env.NODE_ENV === "production";
 const root = `${__dirname}/..`;
 
@@ -41,38 +42,27 @@ async function startServer() {
 
   const port = process.env.PORT || 8081;
 
-  var uploadProgress = 0;
-
   app.use(express.json({ limit: "50mb" }));
 
   app.post("/Account/Validate", (req, res) => {
-    // and access keys as shown below.
-    var minioClient = new Minio.Client({
-      endPoint: "minio-dev.darkube.app",
-      accessKey: "Driver-info@DPE.ir",
-      secretKey: "DI2023@DPE.ir",
-      useSSL: true,
-    });
-    console.log(req, "this is the req");
-    // do the stuff here
+    console.log(req.body);
 
-    const base64String = req.body.file.replace(/^data:image\/\w+;base64,/, "");
-    const buff = new Buffer(base64String, "base64");
-
-    minioClient.putObject(
-      "driver-registration-information",
-      `${req.body.foldername}/${req.body.name}.jpg`,
-      buff,
-      function (err) {
-        if (err) {
-          return console.log(err);
-        } else {
-          uploadProgress += req.body.progressAmount;
-          console.log(uploadProgress);
-          res.json({ uploadProg: uploadProgress });
-        }
-      }
-    );
+    if (req.body.username === "09199061428" && req.body.password === "123456") {
+      res.json({
+        success: true,
+        accesslevel: "User",
+      });
+    } else if (
+      req.body.username === "09129360130" &&
+      req.body.password === "0150231016"
+    ) {
+      res.json({
+        success: true,
+        accesslevel: "Admin",
+      });
+    } else {
+      res.json({ success: false , errorMessage: "نام کاربری یا رمز عبور اشتباه است" });
+    }
   });
 
   app.listen(port);

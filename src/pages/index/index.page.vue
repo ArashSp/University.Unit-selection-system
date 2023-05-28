@@ -17,7 +17,7 @@
           <v-row>
             <v-col cols="12 text-center">
               <v-btn variant="outlined" class="bg-primary px-15 mt-5 " size="large" aria-label="تایید"
-                @click="validateInfo()">
+                @click="validateInfo()" :disabled="username == '' || password == ''">
                 ورود
               </v-btn>
             </v-col>
@@ -37,6 +37,8 @@
 
 <script>
 import axios from "axios";
+import Swal from 'sweetalert2'
+import { mapActions } from "vuex";
 
 export default {
   data() {
@@ -47,8 +49,18 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+
+    }),
     async validateInfo() {
-      // const data = JSON.stringify(element);           make data into Json
+      // make data object
+      let obj = {
+        username: this.username,
+        password: this.password
+      }
+      // make data into Json
+      const data = JSON.stringify(obj);
+      // send json to server
       await axios
         .post("/Account/Validate", data, {
           headers: {
@@ -58,10 +70,34 @@ export default {
         .then((res) => {
           console.log(res);
           if (res.status === 200) {
-            uploadprogress.value =
-              uploadprogress.value + stepProgressAmount.value;
+            if (res.data.success === true) {
+              Swal.fire({
+                text: "شما با موفقیت وارد سامانه شدید",
+                icon: "success",
+                confirmButtonText: "باشه"
+              })
+              console.log(res.data.accesslevel)
+              this.$store.dispatch("setAccess", res.data.accesslevel)
+
+              this.$router.push('/Selection')
+
+            }
+            else {
+              Swal.fire({
+                text: res.data.errorMessage,
+                icon: "error",
+                confirmButtonText: "باشه"
+              })
+            }
           }
         });
+    },
+    ForgetPass() {
+      Swal.fire({
+        text: "درخواست شما به پشتیبانی ارسال شد",
+        icon: "success",
+        confirmButtonText: "ممنون"
+      })
     }
   },
 }
