@@ -1,5 +1,15 @@
 <template>
     <v-locale-provider rtl>
+        <div>
+            <v-row class="mt-15" justify="center" align="center">
+                <v-col xs="12" sm="5" lg="5" xl="5" md="5">
+                    <SelectionList />
+                </v-col>
+                <v-col xs="12" sm="5" lg="5" xl="5" md="5">
+                    <SelectionList />
+                </v-col>
+            </v-row>
+        </div>
 
     </v-locale-provider>
 </template>
@@ -8,6 +18,7 @@
 import Swal from 'sweetalert2'
 import { mapGetters } from 'vuex'
 import axios from "axios";
+import SelectionList from '@/components/Selection/SelectionList.vue';
 
 export default {
     computed: {
@@ -40,5 +51,8 @@ export default {
                 this.$store.dispatch('setList', res.data.subjectList)
             })
     },
+    components: {
+        SelectionList
+    }
 }
 </script>

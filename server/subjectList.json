@@ -1,0 +1,30 @@
+[
+    {
+      "name": "ریاضی",
+      "unit": "2",
+      "teacherName": " احمد اصغری",
+      "ClassDates": "چهارشنبه ",
+      "ClassStartTime": "14:30",
+      "ClassEndTime": "16",
+      "ExamDate": "30",
+      "ExamDay": "شنبه",
+      "ExamMonth": "خرداد",
+      "ExamTime": "8",
+      "quota": 30,
+      "classPlace": "ساختمان علوم پایه کلاس 611"
+    },
+    {
+      "name": "ریاضی",
+      "unit": "2",
+      "teacherName": " احمد اصغری",
+      "ClassDates": "چهارشنبه ",
+      "ClassStartTime": "14:30",
+      "ClassEndTime": "16",
+      "ExamDate": "30",
+      "ExamDay": "شنبه",
+      "ExamMonth": "خرداد",
+      "ExamTime": "8",
+      "quota": 2,
+      "classPlace": "ساختمان علوم پایه کلاس 611"
+    }
+  ]

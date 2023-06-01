@@ -1,9 +1,11 @@
 const express = require("express");
 const compression = require("compression");
+const fs = require("fs");
 const { renderPage } = require("vite-plugin-ssr/server");
 
 const isProduction = process.env.NODE_ENV === "production";
 const root = `${__dirname}/..`;
+const subjectList = require("./subjectList.json");
 
 startServer();
 
@@ -41,27 +43,11 @@ async function startServer() {
 
   const port = process.env.PORT || 8081;
 
-  const SubjectList = [
-    {
-      name: "ریاضی",
-      unit: "2",
-      teacherName: " احمد اصغری",
-      ClassDates: "چهارشنبه ",
-      ClassStartTime: "14:30",
-      ClassEndTime: "16",
-      ExamDate: "30",
-      ExamDay: "شنبه",
-      ExamMonth: "خرداد",
-      ExamTime: "8",
-      quota: 30,
-      classPlace: "ساختمان علوم پایه کلاس 611",
-    },
-  ];
-
   app.use(express.json({ limit: "50mb" }));
 
   app.post("/Account/Validate", (req, res) => {
     console.log(req.body);
+    console.log(this.subjectList)
 
     if (req.body.username === "09199061428" && req.body.password === "123456") {
       res.json({
@@ -85,7 +71,7 @@ async function startServer() {
   });
 
   app.post("/Selection/SubjectData", (req, res) => {
-    res.json({ subjectList: SubjectList });
+    res.json({ subjectList: subjectList });
   });
 
   app.listen(port);
