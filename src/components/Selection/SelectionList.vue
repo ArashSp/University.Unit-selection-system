@@ -34,7 +34,7 @@
                                 {{ subject.quota }} نفر
                             </td>
                             <td>
-                                <v-btn title="اضافه کردن واحد به سبد " size="x-small" color="primary" class="dark" icon="mdi-plus" variant="outlined">
+                                <v-btn variant="tonal" title="اضافه کردن واحد به سبد " size="x-small" color="primary" class="dark" icon="mdi-plus" >
                                     
                                 </v-btn>
                             </td>
@@ -78,3 +78,8 @@ export default {
     },
 }
 </script>
+<style scoped>
+tr:hover {
+    background-color: #E0F7FA;
+}
+</style>

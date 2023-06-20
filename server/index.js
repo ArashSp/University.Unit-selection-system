@@ -53,6 +53,7 @@ async function startServer() {
       res.json({
         success: true,
         accesslevel: "User",
+        name : "Arash"
       });
     } else if (
       req.body.username === "09129360130" &&
@@ -61,6 +62,7 @@ async function startServer() {
       res.json({
         success: true,
         accesslevel: "Admin",
+        name : "Arash Admin"
       });
     } else {
       res.json({

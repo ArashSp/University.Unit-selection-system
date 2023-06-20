@@ -78,6 +78,7 @@ export default {
               })
               console.log(res.data.accesslevel)
               this.$store.dispatch("setAccess", res.data.accesslevel)
+              this.$store.dispatch("setUser", res.data.name)
 
               this.$router.push('/Selection')
 

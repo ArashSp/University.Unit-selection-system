@@ -13,6 +13,12 @@
         </v-toolbar-items>
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
+        <span v-if="name !== null" class=" mx-5">
+          <v-chip class="ma-2" color="primary" variant="text">
+            {{ name }} 
+            <v-icon end icon="mdi-account-outline"></v-icon>
+          </v-chip>
+        </span>
       </v-toolbar>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" location="right" class="d-md-none d-lg-none">
@@ -29,6 +35,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   data() {
     return {
@@ -54,7 +62,12 @@ export default {
       ],
       drawer: false
     }
-  }
+  },
+  computed: {
+    ...mapGetters({
+      name: 'getName'
+    })
+  },
 }
 </script>
 <style scoped>

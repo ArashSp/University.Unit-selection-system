@@ -7,6 +7,7 @@ function createStore() {
     state: {
       user: {
         Accesslevel: "",
+        name: null
       },
       subjectList: [],
     },
@@ -17,6 +18,9 @@ function createStore() {
       getSubjectList: (state) => {
         return state.subjectList;
       },
+      getName : (state) => {
+        return state.user.name
+      }
     },
     mutations: {
       SET_ACCESS_LEVEL(state, payload) {
@@ -25,6 +29,9 @@ function createStore() {
       SET_LIST(state, payload) {
         state.subjectList = payload;
       },
+      SET_USER(state,payload){
+        state.user.name = payload;
+      }
     },
     actions: {
       setAccess(context, payload) {
@@ -33,6 +40,9 @@ function createStore() {
       setList(context, payload) {
         context.commit("SET_LIST", payload);
       },
+      setUser(context,payload){
+        context.commit("SET_USER" , payload)
+      }
     },
   });
   return store;
