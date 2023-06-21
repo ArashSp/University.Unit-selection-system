@@ -2,7 +2,6 @@
     <v-locale-provider rtl>
         <v-card variant="outlined">
             <v-card-text>
-
                 <v-table fixed-header height="300px">
                     <thead>
                         <tr>
@@ -53,15 +52,7 @@ import { mapGetters } from 'vuex'
 export default {
     data() {
         return {
-            tableHeaders: [
-                "نام درس",
-                "تعداد واحد",
-                "زمان برگزاری کلاس",
-                "مکان برگزاری کلاس",
-                "زمان امتحان ",
-                "ظرفیت",
-
-            ]
+        
         }
     },
     computed: {

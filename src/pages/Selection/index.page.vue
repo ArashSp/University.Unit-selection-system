@@ -1,6 +1,6 @@
 <template>
     <v-locale-provider rtl>
-        <div>
+        <!-- <div>
             <v-row class="mt-15 mx-15" justify="right" align="center">
                 <v-col cols="12" lg="4" xl="4 " md="4" sm="3">
                     <v-select label="روز کلاس" :items="days"  variant="outlined"></v-select>
@@ -17,11 +17,11 @@
                     </v-btn>
                 </v-col>
             </v-row>
-        </div>
+        </div> -->
         <div>
-            <v-row class="mt-15" justify="center" align="center">
+            <v-row no-gutters class="mt-15" justify="center">
                 <v-col cols="10">
-                    <SelectionList />
+                    <calendarList />
                 </v-col>
 
             </v-row>
@@ -35,6 +35,7 @@ import Swal from 'sweetalert2'
 import { mapGetters } from 'vuex'
 import axios from "axios";
 import SelectionList from '@/components/Selection/SelectionList.vue';
+import calendarList from '@/components/Selection/Calendar.vue'
 
 export default {
     computed: {
@@ -71,7 +72,7 @@ export default {
             })
     },
     components: {
-        SelectionList
+        SelectionList , calendarList
     },
     data() {
         return {
