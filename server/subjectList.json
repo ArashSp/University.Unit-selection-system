@@ -1,5 +1,6 @@
 [
     {
+      "id" :"1001",
       "name": "ریاضی",
       "unit": "2",
       "teacherName": " احمد اصغری",
@@ -11,20 +12,27 @@
       "ExamMonth": "خرداد",
       "ExamTime": "8",
       "quota": 30,
-      "classPlace": "ساختمان علوم پایه کلاس 611"
+      "classPlace": "ساختمان علوم پایه کلاس 611",
+      "RequiredSubjects" : [],
+      "passedUnitRequired" : "0",
+      "relatedCourse" : ""
     },
     {
-      "name": "ریاضی",
+      "id" :"1002",
+      "name": "زبان",
       "unit": "2",
       "teacherName": " احمد اصغری",
-      "ClassDates": "چهارشنبه ",
+      "ClassDates": "سه شنبه ",
       "ClassStartTime": "14:30",
       "ClassEndTime": "16",
       "ExamDate": "30",
       "ExamDay": "شنبه",
       "ExamMonth": "خرداد",
-      "ExamTime": "8",
+      "ExamTime": "10",
       "quota": 2,
-      "classPlace": "ساختمان علوم پایه کلاس 611"
+      "classPlace": "ساختمان علوم پایه کلاس 601",
+      "RequiredSubjects" : [],
+      "passedUnitRequired" : "0",
+      "relatedCourse" : "ComputerSience"
     }
   ]

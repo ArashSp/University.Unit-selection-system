@@ -6,6 +6,7 @@ const { renderPage } = require("vite-plugin-ssr/server");
 const isProduction = process.env.NODE_ENV === "production";
 const root = `${__dirname}/..`;
 const subjectList = require("./subjectList.json");
+const userlist = require("./users.json");
 
 startServer();
 
@@ -47,29 +48,29 @@ async function startServer() {
 
   app.post("/Account/Validate", (req, res) => {
     console.log(req.body);
-    console.log(this.subjectList)
+    console.log(userlist);
 
-    if (req.body.username === "09199061428" && req.body.password === "123456") {
-      res.json({
-        success: true,
-        accesslevel: "User",
-        name : "Arash"
-      });
-    } else if (
-      req.body.username === "09129360130" &&
-      req.body.password === "0150231016"
-    ) {
-      res.json({
-        success: true,
-        accesslevel: "Admin",
-        name : "Arash Admin"
-      });
-    } else {
-      res.json({
-        success: false,
-        errorMessage: "نام کاربری یا رمز عبور اشتباه است",
-      });
-    }
+    userlist.forEach((element) => {
+      if (
+        element.phoneNumber === req.body.username &&
+        element.password === req.body.password
+      ) {
+        res.json({
+          success: true,
+          firstName: element.firstName,
+          lastName: element.lastName,
+          Average: element.Average,
+          currentSemester: element.currentSemester,
+          StudentID: element.StudentID,
+          passedSubjects: element.passedSubjects,
+        });
+      } else {
+        res.json({
+          success: false,
+          errorMessage: "نام کاربری یا رمز عبور اشتباه است",
+        });
+      }
+    });
   });
 
   app.post("/Selection/SubjectData", (req, res) => {
