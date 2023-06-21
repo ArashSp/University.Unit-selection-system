@@ -76,12 +76,9 @@ export default {
                 icon: "success",
                 confirmButtonText: "باشه"
               })
-              console.log(res.data.accesslevel)
-              this.$store.dispatch("setAccess", res.data.accesslevel)
-              this.$store.dispatch("setUser", res.data.name)
-
+              this.$store.dispatch("setUser", res.data)
+              
               this.$router.push('/Selection')
-
             }
             else {
               Swal.fire({

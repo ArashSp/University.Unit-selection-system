@@ -13,9 +13,9 @@
         </v-toolbar-items>
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
-        <span v-if="name !== null" class=" mx-5">
+        <span v-if="user.StudentID !== null" class=" mx-5">
           <v-chip class="ma-2" color="primary" variant="text">
-            {{ name }} 
+            {{ user.firstName }} {{  user.lastName }}
             <v-icon end icon="mdi-account-outline"></v-icon>
           </v-chip>
         </span>
@@ -65,7 +65,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      name: 'getName'
+      user: 'getUser'
     })
   },
 }

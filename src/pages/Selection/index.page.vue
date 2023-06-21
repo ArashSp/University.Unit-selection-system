@@ -39,11 +39,11 @@ import SelectionList from '@/components/Selection/SelectionList.vue';
 export default {
     computed: {
         ...mapGetters({
-            Accesslevel: 'getAccessLevel'
+            user: 'getUser'
         })
     },
     async mounted() {
-        if (this.Accesslevel === "") {
+        if (this.user.StudentID === null) {
             Swal.fire({
                 text: "برای دسترسی به این بخش وارد سامانه شوید",
                 icon: "error",

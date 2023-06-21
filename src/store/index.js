@@ -6,43 +6,44 @@ function createStore() {
   const store = Vuex.createStore({
     state: {
       user: {
-        Accesslevel: "",
-        name: null
+        Average: "",
+        StudentID: null,
+        currentSemester: "",
+        firstName: "",
+        lastName: "",
+        passedSubjects: [],
       },
       subjectList: [],
     },
     getters: {
-      getAccessLevel: (state) => {
-        return state.user.Accesslevel;
-      },
       getSubjectList: (state) => {
         return state.subjectList;
       },
-      getName : (state) => {
-        return state.user.name
-      }
+      getUser: (state) => {
+        return state.user;
+      },
     },
     mutations: {
-      SET_ACCESS_LEVEL(state, payload) {
-        state.user.Accesslevel = payload;
-      },
       SET_LIST(state, payload) {
         state.subjectList = payload;
       },
-      SET_USER(state,payload){
-        state.user.name = payload;
-      }
+      SET_USER(state, payload) {
+        console.log(payload);
+        state.user.Average = payload.Average;
+        state.user.StudentID = payload.StudentID;
+        state.user.currentSemester = payload.currentSemester;
+        state.user.firstName = payload.firstName;
+        state.user.lastName = payload.lastName;
+        state.user.passedSubjects = payload.passedSubjects;
+      },
     },
     actions: {
-      setAccess(context, payload) {
-        context.commit("SET_ACCESS_LEVEL", payload);
-      },
       setList(context, payload) {
         context.commit("SET_LIST", payload);
       },
-      setUser(context,payload){
-        context.commit("SET_USER" , payload)
-      }
+      setUser(context, payload) {
+        context.commit("SET_USER", payload);
+      },
     },
   });
   return store;
