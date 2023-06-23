@@ -1,85 +1,58 @@
 <template>
     <v-locale-provider rtl>
-        <v-card variant="outlined">
-            <v-card-text>
-
-                <v-table fixed-header height="300px">
-                    <thead>
-                        <tr>
-                            <th v-for="item in tableHeaders" class="text-center">
-                                {{ item }}
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="subject in subjectList" class="text-center" v-show="subject.quota !== 0">
-                            <td>
-                                {{ subject.name }}
-                            </td>
-                            <td>
-                                {{ subject.unit }}
-                            </td>
-                            <td>
-                                {{ subject.ClassDates }} {{ subject.ClassStartTime }} - {{ subject.ClassEndTime }}
-                            </td>
-                            <td>
-                                {{ subject.classPlace }}
-                            </td>
-                            <td>
-                                {{ subject.ExamDay }} {{ subject.ExamDate }} {{ subject.ExamMonth }} ساعت {{
-                                    subject.ExamTime }}
-                            </td>
-                            <td>
-                                {{ subject.quota }} نفر
-                            </td>
-                            <td>
-                                <v-btn variant="tonal" title="اضافه کردن واحد به سبد " size="x-small" color="primary" class="dark" icon="mdi-plus" >
-                                    
-                                </v-btn>
-                            </td>
-
-                        </tr>
-                    </tbody>
-                </v-table>
-
-            </v-card-text>
-        </v-card>
+       
     </v-locale-provider>
 </template>
 <script>
 import { mapGetters } from 'vuex'
 
 export default {
+    computed: {
+        ...mapGetters({
+            previewList: "getPreviewList"
+        })
+    },
+
     data() {
         return {
             tableHeaders: [
-                "نام درس",
-                "تعداد واحد",
                 "زمان برگزاری کلاس",
                 "مکان برگزاری کلاس",
                 "زمان امتحان ",
+                "پیش نیاز",
                 "ظرفیت",
-
-            ]
+            ],
+            selectedsubjectID: []
         }
     },
-    computed: {
-        ...mapGetters({
-            subjectList: 'getSubjectList'
-        })
-    },
     methods: {
-        getSubjectList() {
-
+        addSubjectToList(item) {
+            this.$store.dispatch('AddToPreview', item)
+            this.selectedsubjectID.push(item.id)
+        },
+        removeSubejectFromList(item) {
+            this.$store.dispatch('DeleteFromPreview', item)
+            const index = this.selectedsubjectID.indexOf(item.id);
+            if (index > -1) {
+                this.selectedsubjectID.splice(index, 1);
+            }
         }
     },
     async mounted() {
     },
+    props: {
+        unitlist: {
+            type: Array
+        }
+    }
 }
 </script>
 <style scoped>
 tr:hover {
     background-color: #E0F7FA;
+}
+
+.selectedSubjectinList {
+    background-color: #B3E5FC;
 }
 </style>

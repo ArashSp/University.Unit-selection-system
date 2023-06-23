@@ -18,6 +18,10 @@ function createRouter() {
         path: "/Selection",
         component: () => import("@/pages/Selection/index.page.vue"),
       },
+      {
+        path: "/Preview",
+        component: () => import("@/pages/Preview/index.page.vue"),
+      },
     ],
   });
 }
