@@ -1,4 +1,6 @@
 import Vuex from "vuex";
+import Swal from "sweetalert2";
+import router from "@/router";
 
 export { createStore };
 
@@ -12,6 +14,8 @@ function createStore() {
         firstName: "",
         lastName: "",
         passedSubjects: [],
+        StudyField: "",
+        SelectedCourses: [],
       },
       subjectList: [],
       SubjectListPreview: [],
@@ -24,6 +28,7 @@ function createStore() {
         return state.user;
       },
       getPreviewList: (state) => {
+        console.log(state.SubjectListPreview);
         return state.SubjectListPreview;
       },
       getMaxUnit: (state) => {
@@ -45,12 +50,29 @@ function createStore() {
         state.subjectList = payload;
       },
       SET_USER(state, payload) {
+        console.log(payload)
         state.user.Average = payload.Average;
         state.user.StudentID = payload.StudentID;
         state.user.currentSemester = payload.currentSemester;
         state.user.firstName = payload.firstName;
         state.user.lastName = payload.lastName;
         state.user.passedSubjects = payload.passedSubjects;
+        state.user.StudyField = payload.StudyField;
+        state.user.SelectedCourses = payload.SelectedCourses;
+
+        state.SubjectListPreview = [];
+      },
+      DELETE_USER(state) {
+        state.user = {
+          Average: "",
+          StudentID: null,
+          currentSemester: "",
+          firstName: "",
+          lastName: "",
+          passedSubjects: [],
+          StudyField: "",
+          SelectedCourses: [],
+        };
       },
       ADD_TO_PREVIEW_LIST(state, payload) {
         state.SubjectListPreview.push(payload);
@@ -60,6 +82,40 @@ function createStore() {
         if (index > -1) {
           state.SubjectListPreview.splice(index, 1);
         }
+      },
+      CHECK_CONFLICT(state) {
+        state.SubjectListPreview.forEach((element) => {
+          let list = state.SubjectListPreview.filter(
+            (x) => x.dayID === element.dayID
+          );
+          if (list.length > 1) {
+            list.forEach((element) => {
+              let list2 = list.filter(
+                (x) => x.ClassStartTime === element.ClassStartTime
+              );
+
+              if (list2.length > 1) {
+                let title = "کلاس درس های ";
+                for (let i = 0; i < list2.length; i++) {
+                  title += list2[i].name + " و ";
+                }
+                title = title.slice(0, -2);
+                title +=
+                  "در ساعت شروع" + list2[0].ClassStartTime + " تداخل دارند";
+
+                Swal.fire({
+                  text: title,
+                  icon: "error",
+                  confirmButtonText: "متوجه شدم",
+                });
+              } else {
+                router.push("/Preview");
+              }
+            });
+          } else {
+            router.push("/Preview");
+          }
+        });
       },
     },
     actions: {
@@ -74,6 +130,12 @@ function createStore() {
       },
       DeleteFromPreview(context, payload) {
         context.commit("DELETE_FROM_PREVIEW_LIST", payload);
+      },
+      CheckPreview(context) {
+        context.commit("CHECK_CONFLICT");
+      },
+      logout(context) {
+        context.commit("DELETE_USER");
       },
     },
   });

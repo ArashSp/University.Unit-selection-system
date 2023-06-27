@@ -2,11 +2,11 @@
     <v-locale-provider rtl>
         <div>
             <v-row class="mt-15" justify="center" align="center">
-                <v-col cols="3">
+                <v-col cols="10" xl="3" lg="3" md="3" sm="10" xs="10">
                     <v-card variant="outlined">
                         <v-card-text>
 
-                            <v-table fixed-header height="300px">
+                            <v-table fixed-header height="350px">
                                 <thead>
                                     <tr>
                                         <th v-for="item in tableHeaders" class="text-center">
@@ -29,10 +29,10 @@
                         </v-card-text>
                     </v-card>
                 </v-col>
-                <v-col cols="7">
+                <v-col cols="10" xl="7" lg="7" md="7" sm="10" xs="10">
                     <v-card variant="outlined">
                         <v-card-text>
-                            <v-table fixed-header height="300px">
+                            <v-table fixed-header height="350px">
                                 <thead>
                                     <tr>
                                         <th v-for="item in tableHeadersSelection" class="text-center">
@@ -82,10 +82,12 @@
             </v-row>
 
             <v-row class="mt-15" justify="center" align="center">
-                <v-col cols="6" sm="12" md="4">
+                <v-col cols="10" xl="6" lg="6" md="6" sm="10" xs="10">
                     <v-btn :disabled="totalSelectedUnit > maxUnit" class="py-7 mb-6" block variant="outlined" rounded="lg"
                         size="large" color="primary" @click="goToPreview()"> نمایش کلی واحد های انتخاب شده</v-btn>
-                    <span title="حداقل 8 واحد"> تعداد کل واحد های انتخاب شده : {{ totalSelectedUnit }} از {{ maxUnit }}</span>
+                    <div class="my-2"> واحد های انتخاب شده شما : {{ totalSelectedUnit }}</div>
+                    <div class="my-2"> تعداد واحد های مجاز برای انتخاب : {{ maxUnit }}</div>
+                    <div class="my-2"> حداقل واحد انتخابی : 8</div>
                 </v-col>
             </v-row>
         </div>
@@ -117,7 +119,7 @@ export default {
         }
 
         let obj = {
-            request: "SelectionSubjects",
+            request: this.user.StudyField,
         }
         // make data into Json
         const data = JSON.stringify(obj);
@@ -138,7 +140,17 @@ export default {
                     this.tableHeaderData.push(obj)
                 });
             })
+
         this.subjectListFilter = this.subjectlistAll
+
+        if (this.previewlist.length > 0) {
+            this.previewlist.forEach(element => {
+                this.totalSelectedUnit += parseInt(element.unit)
+                this.selectedsubjectID.push(element.id)
+                this.previewListHere.push(element.rootID)
+            });
+        }
+
     },
     data() {
         return {
@@ -204,8 +216,8 @@ export default {
                 this.previewListHere.splice(index, 1);
             }
         },
-        goToPreview() {
-            this.$router.push('/Preview')
+        async goToPreview() {
+            let checkConfilct = await this.$store.dispatch('CheckPreview')
         }
     },
 }

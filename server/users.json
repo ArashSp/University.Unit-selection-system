@@ -7,7 +7,9 @@
         "StudentID" : "00111040302010",
         "passedSubjects" : [ 1001 ],
         "phoneNumber" : "09129360130",
-        "password" : "0150231016"
+        "password" : "0150231016",
+        "StudyField" : "computer",
+        "SelectedCourses" : []
     },
     {
         "firstName" : "آرش",
@@ -17,6 +19,8 @@
         "StudentID" : "00111040302010",
         "passedSubjects" : [],
         "phoneNumber" : "09199061428",
-        "password" : "0150231016"
+        "password" : "0150231016",
+        "StudyField" : "electronic",
+        "SelectedCourses" : []
     }
 ]

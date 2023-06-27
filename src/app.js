@@ -3,7 +3,7 @@ import "./assets/styles/main.scss";
 import PageLayout from "./PageLayout.vue";
 import vuetify from "./vuetify";
 import { createStore } from "./store";
-import { createRouter } from "./router/index.js";
+import  router  from "./router/index.js";
 export { createApp };
 
 function createApp(pageContext) {
@@ -21,7 +21,7 @@ function createApp(pageContext) {
       );
     },
   };
-  const router = createRouter();
+
   const store = createStore();
   const app = createSSRApp(PageWithLayout);
   app.use(vuetify);
