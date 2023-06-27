@@ -76,15 +76,18 @@ export default {
                 icon: "success",
                 confirmButtonText: "باشه"
               })
-              console.log(res.data.accesslevel)
-              this.$store.dispatch("setAccess", res.data.accesslevel)
-
-              this.$router.push('/Selection')
-
+              this.$store.dispatch("setUser", res.data.data)
+              console.log(res.data.data)
+              if (res.data.data.SelectedCourses.length > 0) {
+                this.$router.push('/Preview')
+              }
+              else {
+                this.$router.push('/Selection')
+              }
             }
             else {
               Swal.fire({
-                text: res.data.errorMessage,
+                text: res.data.data.errorMessage,
                 icon: "error",
                 confirmButtonText: "باشه"
               })
