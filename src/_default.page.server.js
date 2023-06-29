@@ -1,7 +1,7 @@
 import { renderToString } from "@vue/server-renderer";
 import { escapeInject, dangerouslySkipEscape } from "vite-plugin-ssr";
 import { createApp } from "./app";
-import logoUrl from "@/assets/images/logo.png";
+import logoUrl from "../public/assets/images/logo.png";
 
 export { render };
 export { passToClient };

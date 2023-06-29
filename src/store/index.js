@@ -6,6 +6,7 @@ export { createStore };
 
 function createStore() {
   const store = Vuex.createStore({
+    // all States needed for state management
     state: {
       user: {
         Average: "",
@@ -20,6 +21,7 @@ function createStore() {
       subjectList: [],
       SubjectListPreview: [],
     },
+    // Getter functions to send data from Store
     getters: {
       getSubjectList: (state) => {
         return state.subjectList;
@@ -28,7 +30,6 @@ function createStore() {
         return state.user;
       },
       getPreviewList: (state) => {
-        console.log(state.SubjectListPreview);
         return state.SubjectListPreview;
       },
       getMaxUnit: (state) => {
@@ -45,12 +46,13 @@ function createStore() {
         }
       },
     },
+    // mutations that will be called if needed
     mutations: {
       SET_LIST(state, payload) {
         state.subjectList = payload;
       },
       SET_USER(state, payload) {
-        console.log(payload)
+        console.log(payload);
         state.user.Average = payload.Average;
         state.user.StudentID = payload.StudentID;
         state.user.currentSemester = payload.currentSemester;
@@ -75,13 +77,26 @@ function createStore() {
         };
       },
       ADD_TO_PREVIEW_LIST(state, payload) {
-        state.SubjectListPreview.push(payload);
+        let index = state.SubjectListPreview.indexOf(payload);
+        if (index > -1) {
+        } else {
+          state.SubjectListPreview.push(payload);
+        }
       },
       DELETE_FROM_PREVIEW_LIST(state, payload) {
-        const index = state.SubjectListPreview.indexOf(payload);
-        if (index > -1) {
-          state.SubjectListPreview.splice(index, 1);
+        let temp = state.SubjectListPreview.filter((x) => x.id === payload.id);
+        if (temp.length > 0) {
+          temp.forEach((element) => {
+            let idx = state.SubjectListPreview.indexOf(element);
+            console.log(idx);
+            if (idx > -1) {
+              state.SubjectListPreview.splice(idx, 1);
+            }
+          });
         }
+      },
+      DELETE_ALL_PREVIEW_LIST(state) {
+        state.SubjectListPreview = [];
       },
       CHECK_CONFLICT(state) {
         state.SubjectListPreview.forEach((element) => {
@@ -118,6 +133,7 @@ function createStore() {
         });
       },
     },
+    // actions that will be called by our components
     actions: {
       setList(context, payload) {
         context.commit("SET_LIST", payload);
@@ -130,6 +146,9 @@ function createStore() {
       },
       DeleteFromPreview(context, payload) {
         context.commit("DELETE_FROM_PREVIEW_LIST", payload);
+      },
+      ResetPreviewList(context) {
+        context.commit("DELETE_ALL_PREVIEW_LIST");
       },
       CheckPreview(context) {
         context.commit("CHECK_CONFLICT");

@@ -1,6 +1,6 @@
 <template>
+  <!-- this tag allows me to change the direction to "Right to left" -->
   <v-locale-provider rtl>
-
     <v-responsive class="text-center align-center fill-height">
       <v-row justify="center" class="mx-3">
         <v-col cols="12" md="4" class="text-md-center">
@@ -29,16 +29,13 @@
           </v-row>
         </v-col>
       </v-row>
-
     </v-responsive>
-
   </v-locale-provider>
 </template>
 
 <script>
 import axios from "axios";
 import Swal from 'sweetalert2'
-import { mapActions } from "vuex";
 
 export default {
   data() {
@@ -49,9 +46,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions({
-
-    }),
     async validateInfo() {
       // make data object
       let obj = {

@@ -5,17 +5,20 @@ const { renderPage } = require("vite-plugin-ssr/server");
 
 const isProduction = process.env.NODE_ENV === "production";
 const root = `${__dirname}/..`;
+
+// imports our data from jsons
 var subjectList = require("./subjectList.json");
 var userlist = require("./users.json");
-const { fail } = require("assert");
 
 startServer();
 
+// stats the server
 async function startServer() {
   const app = express();
 
   app.use(compression());
 
+  // uses vue middleware
   if (isProduction) {
     const sirv = require("sirv");
     app.use(sirv(`${root}/dist/client`));
@@ -30,6 +33,7 @@ async function startServer() {
     app.use(viteDevMiddleware);
   }
 
+  // custom middleware
   app.get("*", async (req, res, next) => {
     const pageContextInit = {
       urlOriginal: req.originalUrl,
@@ -44,10 +48,13 @@ async function startServer() {
     return res.status(statusCode).type(contentType).send(body);
   });
 
+  // add port for server
   const port = process.env.PORT || 8081;
 
+  // increase payload size to 50mb
   app.use(express.json({ limit: "50mb" }));
 
+  // returns login validation info
   app.post("/Account/Validate", (req, res) => {
     let list = userlist.filter(
       (x) =>
@@ -75,6 +82,7 @@ async function startServer() {
     res.json({ success: data.success, data: data });
   });
 
+  // returns the subject list according to studyfield
   app.post("/Selection/SubjectData", (req, res) => {
     var list = subjectList.filter(
       (x) => x.relatedCourse === req.body.request || x.relatedCourse === "all"
@@ -82,6 +90,7 @@ async function startServer() {
     res.json({ subjectList: list });
   });
 
+  // returns the response of submitting unit list and handles the process
   app.post("/Selection/submit", (req, res) => {
     var failedlist = [];
     var successList = [];

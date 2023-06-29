@@ -1,11 +1,12 @@
 <template>
-    <v-locale-provider rtl>
+    <!-- this tag allows me to change the direction to "Right to left" -->
+    <v-locale-provider rtl> 
         <div>
             <v-row class="mt-15" justify="center" align="center">
                 <v-col cols="10" xl="3" lg="3" md="3" sm="10" xs="10">
+                    <!-- First Table contaning subject List -->
                     <v-card variant="outlined">
                         <v-card-text>
-
                             <v-table fixed-header height="350px">
                                 <thead>
                                     <tr>
@@ -30,6 +31,7 @@
                     </v-card>
                 </v-col>
                 <v-col cols="10" xl="7" lg="7" md="7" sm="10" xs="10">
+                    <!-- Second Table contaning Class List -->
                     <v-card variant="outlined">
                         <v-card-text>
                             <v-table fixed-header height="350px">
@@ -80,14 +82,24 @@
                     </v-card>
                 </v-col>
             </v-row>
-
             <v-row class="mt-15" justify="center" align="center">
                 <v-col cols="10" xl="6" lg="6" md="6" sm="10" xs="10">
+                    <!-- button -->
                     <v-btn :disabled="totalSelectedUnit > maxUnit" class="py-7 mb-6" block variant="outlined" rounded="lg"
                         size="large" color="primary" @click="goToPreview()"> نمایش کلی واحد های انتخاب شده</v-btn>
-                    <div class="my-2"> واحد های انتخاب شده شما : {{ totalSelectedUnit }}</div>
+
+                    <!-- shows Unit Count -->
+                    <div class="my-2"> واحد های انتخاب شده شما : {{ totalSelectedUnit }}
+                        <span v-if="ProfessionalUnitCount > 0"> تعداد واحد های تخصصی شما : {{ ProfessionalUnitCount }}
+                        </span>
+                        <span v-if="GeneralUntiCount > 0"> تعداد واحد های عمومی شما : {{ GeneralUntiCount }}</span>
+                        <span v-if="FoundationUnitCount > 0"> تعداد واحد های پایه شما : {{ FoundationUnitCount }}</span>
+                        <span v-if="GeneralskillUnitCount > 0"> تعداد واحد های مهارت عمومی شما :
+                            {{ GeneralskillUnitCount }}</span>
+                    </div>
                     <div class="my-2"> تعداد واحد های مجاز برای انتخاب : {{ maxUnit }}</div>
                     <div class="my-2"> حداقل واحد انتخابی : 8</div>
+
                 </v-col>
             </v-row>
         </div>
@@ -101,6 +113,7 @@ import axios from "axios";
 
 export default {
     computed: {
+        // gets our data from vuex store
         ...mapGetters({
             user: 'getUser',
             subjectlistAll: 'getSubjectList',
@@ -109,6 +122,7 @@ export default {
         })
     },
     async mounted() {
+        // checks if the user is logged in
         if (this.user.StudentID === null) {
             Swal.fire({
                 text: "برای دسترسی به این بخش وارد سامانه شوید",
@@ -118,6 +132,7 @@ export default {
             this.$router.push('/')
         }
 
+        // requests the subject data related to study field
         let obj = {
             request: this.user.StudyField,
         }
@@ -129,7 +144,7 @@ export default {
                     "Content-Type": "application/json",
                 },
             }).then((res) => {
-                console.log(res)
+                // Adds subject data to our store ( vuex ) and pushes it to our local Array
                 this.$store.dispatch('setList', res.data.subjectList)
                 res.data.subjectList.forEach(element => {
                     obj = {
@@ -141,8 +156,15 @@ export default {
                 });
             })
 
+        // Adds data to the List 
         this.subjectListFilter = this.subjectlistAll
 
+        // Sorts data based on day of the week 
+        this.subjectListFilter.sort(function (a, b) {
+            return (a.dayID - b.dayID)
+        })
+
+        // if the user already picked subjects
         if (this.previewlist.length > 0) {
             this.previewlist.forEach(element => {
                 this.totalSelectedUnit += parseInt(element.unit)
@@ -154,6 +176,7 @@ export default {
     },
     data() {
         return {
+            // Header Text Arrays
             days: [
                 "شنبه ",
                 " یکشنبه ",
@@ -163,13 +186,9 @@ export default {
                 " پنج شنبه ",
                 "جمعه ",
             ],
-            subjectListFilter: [],
             tableHeaders: [
-                " لیست دروس",
+                "  لیست دروس مجاز",
             ],
-            tableHeaderData: [],
-            isActive: "",
-            totalSelectedUnit: 0,
             tableHeadersSelection: [
                 "زمان برگزاری کلاس",
                 " استاد",
@@ -178,16 +197,34 @@ export default {
                 "پیش نیاز",
                 "ظرفیت",
             ],
+
+            // unit control variables
+            totalSelectedUnit: 0,
+            ProfessionalUnitCount: 0,
+            GeneralUntiCount: 0,
+            FoundationUnitCount: 0,
+            GeneralskillUnitCount: 0,
+
+            // Data Control Variables
+            tableHeaderData: [],
+            isActive: "",
+            subjectListFilter: [],
             selectedsubjectID: [],
             previewListHere: []
         }
     },
     methods: {
         unitSelected(item) {
+            // Handles Css
             this.isActive = item.rootID
+            // Adds filtered subjects to the data and sorts them according to dayID
             this.subjectListFilter = this.subjectlistAll.filter(x => x.rootID === item.rootID)
+            this.subjectListFilter.sort(function (a, b) {
+                return (a.dayID - b.dayID)
+            })
         },
         addSubjectToList(item) {
+            // Sends An Error if the subject already exists in the list
             if (this.previewListHere.includes(item.rootID)) {
                 Swal.fire({
                     text: "شما در در حال حاضر یک بازه زمانی برای این درس را انتخاب کرده اید ",
@@ -196,7 +233,18 @@ export default {
                 })
             }
             else {
+                // Adds the units to their respective variables
                 this.totalSelectedUnit += parseInt(item.unit)
+                if (item.type === "Foundation")
+                    this.FoundationUnitCount += item.unit
+                else if (item.type === "General")
+                    this.GeneralUntiCount += item.unit
+                else if (item.type === "Professional")
+                    this.ProfessionalUnitCount += item.unit
+                else if (item.type === "Generalskill")
+                    this.GeneralskillUnitCount += item.unit
+
+                // Handles Store and css
                 this.$store.dispatch('AddToPreview', item)
                 this.selectedsubjectID.push(item.id)
                 this.previewListHere.push(item.rootID)
@@ -204,20 +252,33 @@ export default {
 
         },
         removeSubejectFromList(item) {
+            // checks if the subject exists in the list
             const index = this.selectedsubjectID.indexOf(item.id);
             if (index > -1) {
+                // removes the units from their respective variables
                 this.totalSelectedUnit -= parseInt(item.unit)
+                if (item.type === "Foundation")
+                    this.FoundationUnitCount -= item.unit
+                else if (item.type === "General")
+                    this.GeneralUntiCount -= item.unit
+                else if (item.type === "Professional")
+                    this.ProfessionalUnitCount -= item.unit
+                else if (item.type === "Generalskill")
+                    this.GeneralskillUnitCount -= item.unit
+
+                // Handles Store and css
                 this.$store.dispatch('DeleteFromPreview', item)
                 this.selectedsubjectID.splice(index, 1);
             }
 
+            // Handles Css
             const index2 = this.previewListHere.indexOf(item.rootID);
             if (index2 > -1) {
                 this.previewListHere.splice(index, 1);
             }
         },
         async goToPreview() {
-            let checkConfilct = await this.$store.dispatch('CheckPreview')
+            await this.$store.dispatch('CheckPreview')
         }
     },
 }
@@ -229,7 +290,7 @@ th {
 }
 
 td {
-    font-size: small;
+    font-size: medium;
 }
 
 .selectedsubject {
