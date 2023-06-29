@@ -4,6 +4,7 @@ import {
   createWebHistory,
 } from "vue-router";
 
+// our page routes
 const routes = [
   {
     path: "/",
@@ -19,6 +20,7 @@ const routes = [
   },
 ];
 
+// exporting router
 const router = createRouter({
   scrollBehavior() {
     return { x: 0, y: 0 };
