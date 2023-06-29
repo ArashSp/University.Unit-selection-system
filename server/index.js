@@ -87,14 +87,15 @@ async function startServer() {
 
   // returns the subject list according to studyfield
   app.post("/Selection/SubjectData", (req, res) => {
+    // filter based on study field
     var list = subjectList.filter(
       (x) =>
         x.relatedCourse === req.body.request.StudyField ||
         x.relatedCourse === "all"
     );
-
+    // filter based on passed subjects
     list.filter((x) => req.body.request.passedSubjects.includes(!x.id));
-
+    // filter based on  passed Required units
     if (req.body.request.currentSemester < 4) {
       list.filter((x) =>
         req.body.request.passedSubjects.includes(x.passedUnitRequired)

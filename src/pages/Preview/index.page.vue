@@ -3,6 +3,7 @@
     <v-locale-provider rtl>
         <div>
             <v-row class="mt-15 mb-6" align="center" justify="center">
+                <v-col cols="10" class="text-center"> <span class=" text-h5  text-h5 text-md-h4">جدول هفتگی انتخاب واحد</span></v-col>
                 <v-col cols="10">
                     <!-- table Containing our Data  -->
                     <v-card variant="outlined">
@@ -123,12 +124,6 @@ export default {
                 confirmButtonText: "متوجه شدم"
             })
             this.$router.push('/')
-        }
-        // Checks if user already done unit selection before or not
-        if (this.user.alreadySelected === true) {
-            if (this.user.SelectedCourses.length > 0) {
-                this.sortDays(this.user.SelectedCourses)
-            }
         }
         // passes on the data to our method to sort 
         this.sortDays(this.previewlist)

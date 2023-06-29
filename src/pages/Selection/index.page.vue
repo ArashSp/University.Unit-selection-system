@@ -3,7 +3,7 @@
     <v-locale-provider rtl>
         <div>
             <v-row class="mt-15" justify="center" align="center">
-                <v-col cols="10" xl="3" lg="3" md="3" sm="10" xs="10">
+                <v-col cols="10" xl="2" lg="2" md="2" sm="10" xs="10">
                     <!-- First Table contaning subject List -->
                     <v-card variant="outlined">
                         <v-card-text>
@@ -30,7 +30,7 @@
                         </v-card-text>
                     </v-card>
                 </v-col>
-                <v-col cols="10" xl="7" lg="7" md="7" sm="10" xs="10">
+                <v-col cols="10" xl="8" lg="8" md="8" sm="10" xs="10">
                     <!-- Second Table contaning Class List -->
                     <v-card variant="outlined">
                         <v-card-text>
@@ -48,9 +48,27 @@
                                         v-show="subject.quota !== 0"
                                         :class="{ selectedSubjectinList: selectedsubjectID.includes(subject.id) }">
                                         <td>
+                                            <span v-if="subject.type == 'Foundation'">
+                                                پایه
+                                            </span>
+                                            <span v-if="subject.type == 'optional'">
+                                                اختیاری
+                                            </span>
+                                            <span v-if="subject.type == 'Professional'">
+                                                تخصصی
+                                            </span>
+                                            <span v-if="subject.type == 'General'">
+                                                عمومی
+                                            </span>
+                                            <span v-if="subject.type == 'Generalskill'">
+                                                مهارت عمومی
+                                            </span>
+                                        </td>
+                                        <td>
                                             {{ subject.ClassDates }} {{ subject.ClassStartTime }} - {{ subject.ClassEndTime
                                             }}
                                         </td>
+
                                         <td> {{ subject.teacherName }}</td>
                                         <td>
                                             {{ subject.classPlace }}
@@ -60,7 +78,11 @@
                                             {{ subject.ExamDay }} {{ subject.ExamDate }} {{ subject.ExamMonth }} ساعت {{
                                                 subject.ExamTime }}
                                         </td>
-                                        <td></td>
+                                        <td>
+                                            <span v-for="item in subject.RequiredSubjects">
+                                                {{ item }}
+                                            </span>
+                                        </td>
                                         <td>
                                             {{ subject.quota }} نفر
                                         </td>
@@ -85,17 +107,36 @@
             <v-row class="mt-15" justify="center" align="center">
                 <v-col cols="10" xl="6" lg="6" md="6" sm="10" xs="10">
                     <!-- button -->
-                    <v-btn :disabled="totalSelectedUnit > maxUnit" class="py-7 mb-6" block variant="outlined" rounded="lg"
-                        size="large" color="primary" @click="goToPreview()"> نمایش کلی واحد های انتخاب شده</v-btn>
+                    <v-btn :disabled="totalSelectedUnit > maxUnit" class=" font-weight-bold py-7  mb-6" block
+                        variant="outlined" rounded="lg" size="large" color="primary" @click="goToPreview()"> نمایش تمام واحد
+                        های انتخاب شده در جدول هفتگی</v-btn>
 
                     <!-- shows Unit Count -->
                     <div class="my-2"> واحد های انتخاب شده شما : {{ totalSelectedUnit }}
-                        <span v-if="ProfessionalUnitCount > 0"> تعداد واحد های تخصصی شما : {{ ProfessionalUnitCount }}
-                        </span>
-                        <span v-if="GeneralUntiCount > 0"> تعداد واحد های عمومی شما : {{ GeneralUntiCount }}</span>
-                        <span v-if="FoundationUnitCount > 0"> تعداد واحد های پایه شما : {{ FoundationUnitCount }}</span>
-                        <span v-if="GeneralskillUnitCount > 0"> تعداد واحد های مهارت عمومی شما :
-                            {{ GeneralskillUnitCount }}</span>
+                        <v-tooltip v-model="show" location="top">
+                            <template v-slot:activator="{ props }">
+                                <v-btn icon flat v-bind="props">
+                                    <v-icon color="primary">
+                                        mdi-information
+                                    </v-icon>
+                                </v-btn>
+                            </template>
+                            <span v-if="totalSelectedUnit > 0">
+                                <p v-if="ProfessionalUnitCount > 0"> تعداد واحد های تخصصی شما : {{ ProfessionalUnitCount
+                                }}
+                                </p>
+                                <p v-if="GeneralUntiCount > 0"> تعداد واحد های عمومی شما : {{ GeneralUntiCount }}
+                                </p>
+                                <p v-if="FoundationUnitCount > 0"> تعداد واحد های پایه شما : {{ FoundationUnitCount
+                                }} </p>
+                                <p v-if="GeneralskillUnitCount > 0"> تعداد واحد های مهارت عمومی شما :
+                                    {{ GeneralskillUnitCount }} </p>
+                                <p v-if="optionalUnitCount > 0"> تعداد واحد های اختیاری شما : {{ optionalUnitCount
+                                }} </p>
+                            </span>
+                            <span v-else> شما هنوز واحدی انتخاب نکرده اید</span>
+                        </v-tooltip>
+
                     </div>
                     <div class="my-2"> تعداد واحد های مجاز برای انتخاب : {{ maxUnit }}</div>
                     <div class="my-2"> حداقل واحد انتخابی : 8</div>
@@ -164,6 +205,7 @@ export default {
             return (a.dayID - b.dayID)
         })
 
+
         // if the user already picked subjects
         if (this.previewlist.length > 0) {
             this.previewlist.forEach(element => {
@@ -182,7 +224,7 @@ export default {
             });
         }
         // if already finished subject Selection
-        if (this.user.alreadySelected === true) {
+        else if (this.user.alreadySelected === true) {
             if (this.user.SelectedCourses.length > 0) {
                 this.user.SelectedCourses.forEach(element => {
                     this.$store.dispatch('AddToPreview', element)
@@ -220,6 +262,7 @@ export default {
                 "  لیست دروس مجاز",
             ],
             tableHeadersSelection: [
+                "نوع درس",
                 "زمان برگزاری کلاس",
                 " استاد",
                 "مکان برگزاری کلاس",
@@ -234,13 +277,17 @@ export default {
             GeneralUntiCount: 0,
             FoundationUnitCount: 0,
             GeneralskillUnitCount: 0,
+            optionalUnitCount: 0,
 
             // Data Control Variables
             tableHeaderData: [],
             isActive: "",
             subjectListFilter: [],
             selectedsubjectID: [],
-            previewListHere: []
+            previewListHere: [],
+
+            // tooltip
+            show: false,
         }
     },
     methods: {

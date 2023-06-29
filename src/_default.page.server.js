@@ -1,7 +1,7 @@
 import { renderToString } from "@vue/server-renderer";
 import { escapeInject, dangerouslySkipEscape } from "vite-plugin-ssr";
 import { createApp } from "./app";
-import logoUrl from "../public/assets/images/logo.png";
+import logoUrl from "../public/favicon.ico";
 
 export { render };
 export { passToClient };
@@ -20,7 +20,6 @@ async function render(pageContext) {
 
   // See https://vite-plugin-ssr.com/html-head
   const { documentProps } = pageContext;
-  const title = (documentProps && documentProps.title) || "Vite SSR app";
   const desc =
     (documentProps && documentProps.description) ||
     "App using Vite + vite-plugin-ssr";
@@ -32,7 +31,7 @@ async function render(pageContext) {
         <link rel="icon" href="${logoUrl}" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="${desc}" />
-        <title>  انتخاب واحد دانشجویان   </title>
+        <title>سامانه انتخاب واحد دانشجویان</title>
       </head>
       <body>
         <div id="app">${dangerouslySkipEscape(appHtml)}</div>
