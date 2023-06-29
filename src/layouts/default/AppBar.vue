@@ -1,15 +1,14 @@
 <template>
   <v-locale-provider rtl>
     <v-app-bar class="py-2 font">
-      <v-toolbar class="bg-white py-2">
-       
-        <v-toolbar-title @click="$router.push('/')">
-          انتخاب واحد دانشجویان
+      <v-toolbar class="bg-white py-2">       
+        <v-toolbar-title>
+         سامانه انتخاب واحد دانشجویان
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
         <span v-if="user.StudentID !== null" class=" mx-5">
-          <v-chip class="ma-2" color="primary" variant="text">
+          <v-chip class="mx-2 mt-2" color="primary" variant="text">
             {{ user.firstName }} {{  user.lastName }}
             <v-icon end icon="mdi-account-outline"></v-icon>
           </v-chip>

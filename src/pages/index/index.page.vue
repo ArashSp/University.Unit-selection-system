@@ -1,36 +1,49 @@
 <template>
+  <div class="bgHome" style="height: 100%;" >
   <!-- this tag allows me to change the direction to "Right to left" -->
-  <v-locale-provider rtl>
-    <v-responsive class="text-center align-center fill-height">
-      <v-row justify="center" class="mx-3">
-        <v-col cols="12" md="4" class="text-md-center">
-          <p class="mb-7">
-            لطفا برای انتخاب واحد وارد سامانه شوید.
-          </p>
-          <v-text-field v-model="username" variant="outlined" type="text" label=" نام کاربری"
-            class="mx-lg-5 lefted-input"></v-text-field>
+  <v-locale-provider rtl class="bgHome">
+      <v-responsive class="text-center align-center fill-height ">
+        <v-row justify="center">
+          <v-col cols="10" md="4" lg="4" xl="4" ms="4">
+            <v-card class="bg-white rounded-xl">
+              <v-row justify="center" class="mx-3" algin="center">
+                <v-col cols="10" class="text-center align-center">
+                  <v-row justify="center" class="mt-5">
+                    <v-col cols="10" md="6" xl="6" lg="6" >
+                      <v-img aspect-ratio="16/9" width="200" cover src="../../../public/logo.png"></v-img>
+                    </v-col>
+                  </v-row>
 
-          <v-text-field name="password" v-model="password" variant="outlined" label="رمز عبور"
-            :append-inner-icon="value ? 'mdi-eye' : 'mdi-eye-off'" @click:append-inner="() => (value = !value)"
-            :type="value ? 'password' : 'text'" class="mx-lg-5 lefted-input"></v-text-field>
+                </v-col>
+                <v-col cols="10" class="text-center mt-3">
 
-          <v-row>
-            <v-col cols="12 text-center">
-              <v-btn variant="outlined" class="bg-primary px-15 mt-5 " size="large" aria-label="تایید"
-                @click="validateInfo()" :disabled="username == '' || password == ''">
-                ورود
-              </v-btn>
-            </v-col>
-            <v-col cols="12 text-center">
-              <v-btn variant="text" class="my-5 text-secondary text-body-2" @click="ForgetPass()">
-                نام کاربری یا رمز عبور خود را فراموش کردید؟
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
-    </v-responsive>
+                  <p class="mb-7 text-md-h5">
+                    لطفا برای انتخاب واحد وارد سامانه شوید.
+                  </p>
+                  <v-text-field v-model="username" variant="outlined" type="text" label=" نام کاربری"
+                    class="mx-lg-5 lefted-input"></v-text-field>
+
+                  <v-text-field name="password" v-model="password" variant="outlined" label="رمز عبور"
+                    :append-inner-icon="value ? 'mdi-eye' : 'mdi-eye-off'" @click:append-inner="() => (value = !value)"
+                    :type="value ? 'password' : 'text'" class="mx-lg-5 lefted-input"></v-text-field>
+
+                  <v-row>
+                    <v-col cols="12 text-center mb-15">
+                      <v-btn variant="outlined" class="bg-primary px-15 mt-5 " size="large" aria-label="تایید"
+                        @click="validateInfo()" :disabled="username == '' || password == ''">
+                        ورود
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-responsive>
+
   </v-locale-provider>
+</div>
 </template>
 
 <script>
@@ -94,3 +107,11 @@ export default {
   },
 }
 </script>
+<style scoped>
+.bgHome {
+  background-image: url(../../../public/university.png) !important;
+  background-size: inherit !important;
+  background-position: center center !important;
+
+}
+</style>

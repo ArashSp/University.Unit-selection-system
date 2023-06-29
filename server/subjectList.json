@@ -17,6 +17,7 @@
     "quota": 30,
     "classPlace": "ساختمان علوم پایه کلاس 611",
     "RequiredSubjects": [],
+    "RequiredSubjectsID":[],
     "passedUnitRequired": "0",
     "relatedCourse": "all"
   },
@@ -38,6 +39,7 @@
     "quota": 30,
     "classPlace": "ساختمان علوم پایه کلاس 601",
     "RequiredSubjects": [],
+    "RequiredSubjectsID":[],
     "passedUnitRequired": "0",
     "relatedCourse": "all"
   },
@@ -59,6 +61,7 @@
     "quota": 30,
     "classPlace": "ساختمان علوم پایه کلاس 611",
     "RequiredSubjects": [],
+    "RequiredSubjectsID":[],
     "passedUnitRequired": "0",
     "relatedCourse": "all"
   }
