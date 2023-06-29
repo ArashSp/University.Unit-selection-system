@@ -84,9 +84,19 @@ async function startServer() {
 
   // returns the subject list according to studyfield
   app.post("/Selection/SubjectData", (req, res) => {
+
     var list = subjectList.filter(
-      (x) => x.relatedCourse === req.body.request || x.relatedCourse === "all"
+      (x) => x.relatedCourse === req.body.request.StudyField || x.relatedCourse === "all"
     );
+
+    list.filter((x) => req.body.request.passedSubjects.includes(!x.id));
+
+    if (req.body.request.currentSemester < 4) {
+      list.filter((x) =>
+        req.body.request.passedSubjects.includes(x.passedUnitRequired)
+      );
+    }
+
     res.json({ subjectList: list });
   });
 
@@ -96,33 +106,58 @@ async function startServer() {
     var successList = [];
     req.body.previewlist.forEach((element) => {
       let objectIndex = subjectList.findIndex((obj) => obj.id === element.id);
+      // checks if the subject quota > 0
       if (subjectList[objectIndex].quota > 0) {
         successList.push(element);
       } else {
         failedlist.push(element);
       }
     });
-
+    // if 1 or more subject quota was 0
     if (failedlist.length > 0) {
       data = {
         success: false,
         list: failedlist,
       };
-    } else {
+    }
+    // if not
+    else {
       let user = userlist.filter((x) => x.StudentID === req.body.userID);
       let objectIndex2 = subjectList.findIndex(
         (obj) => obj.StudentID === user.StudentID
       );
-      req.body.previewlist.forEach((element) => {
-        userlist[objectIndex2].SelectedCourses.push(element);
-      });
 
+      // Handles Quota if selectedCourses > 0
+      if (userlist[objectIndex2].SelectedCourses.length > 0) {
+        // Adds 1 quota to all subjects that are in selectedCourses
+        userlist[objectIndex2].SelectedCourses.forEach((element) => {
+          let index = subjectList.indexOf(element);
+          subjectList[index].quota += 1;
+        });
+
+        // Deletes All selectedCourses
+        userlist[objectIndex2].SelectedCourses = [];
+
+        // Adds Courses to user Data
+        req.body.previewlist.forEach((element) => {
+          userlist[objectIndex2].SelectedCourses.push(element);
+        });
+      } else {
+        // Adds Courses to user Data
+        req.body.previewlist.forEach((element) => {
+          userlist[objectIndex2].SelectedCourses.push(element);
+        });
+      }
+
+      // Handles Quota if selectedCourses =  0
       successList.forEach((element) => {
         let objectIndex = subjectList.findIndex((obj) => obj.id === element.id);
         if (subjectList[objectIndex].quota > 0) {
           subjectList[objectIndex].quota -= 1;
         }
       });
+
+      // Response
       data = { success: true };
     }
     res.json({ success: data.success, data: data });

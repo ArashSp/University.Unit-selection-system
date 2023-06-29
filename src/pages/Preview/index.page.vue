@@ -42,18 +42,13 @@
             </v-row>
             <!-- button control row -->
             <v-row align="center " justify="center">
-                <v-col v-if="alreadySelected === false" cols="10 " xl="4" lg="4" md="4" sm="10" xs="10">
+                <v-col  cols="10 " xl="4" lg="4" md="4" sm="10" xs="10">
                     <v-btn class="py-7 mb-6" block variant="outlined" rounded="lg" size="large" color="grey-darken-1"
                         @click="edit()">ویرایش</v-btn>
                 </v-col>
-                <v-col v-if="alreadySelected === false" cols="10 " xl="4" lg="4" md="4" sm="10" xs="10">
+                <v-col  cols="10 " xl="4" lg="4" md="4" sm="10" xs="10">
                     <v-btn class="py-7 mb-6" block variant="outlined" rounded="lg" size="large" color="primary"
                         @click="submit()">ثبت نهایی</v-btn>
-                </v-col>
-                <v-col v-if="alreadySelected === true" cols="10 " xl="4" lg="4" md="4" sm="10" xs="10">
-                    <v-btn class="py-7 mb-6" block variant="outlined" rounded="lg" size="large" color="primary"
-                        @click="logout()">بازگشت به
-                        صفحه ورود </v-btn>
                 </v-col>
             </v-row>
         </div>
@@ -117,7 +112,6 @@ export default {
             // Data Arrays 
             dataList: [],
             // Controls if the user has already finished unit Selection
-            alreadySelected: false,
         }
     },
     mounted() {
@@ -132,7 +126,6 @@ export default {
         }
         // Checks if user already done unit selection before or not
         if (this.user.SelectedCourses.length > 0) {
-            this.alreadySelected = true
             this.sortDays(this.user.SelectedCourses)
         }
         // If not the 2 cases above 
