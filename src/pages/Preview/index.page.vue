@@ -42,11 +42,11 @@
             </v-row>
             <!-- button control row -->
             <v-row align="center " justify="center">
-                <v-col  cols="10 " xl="4" lg="4" md="4" sm="10" xs="10">
+                <v-col cols="10 " xl="4" lg="4" md="4" sm="10" xs="10">
                     <v-btn class="py-7 mb-6" block variant="outlined" rounded="lg" size="large" color="grey-darken-1"
                         @click="edit()">ویرایش</v-btn>
                 </v-col>
-                <v-col  cols="10 " xl="4" lg="4" md="4" sm="10" xs="10">
+                <v-col cols="10 " xl="4" lg="4" md="4" sm="10" xs="10">
                     <v-btn class="py-7 mb-6" block variant="outlined" rounded="lg" size="large" color="primary"
                         @click="submit()">ثبت نهایی</v-btn>
                 </v-col>
@@ -125,15 +125,13 @@ export default {
             this.$router.push('/')
         }
         // Checks if user already done unit selection before or not
-        if (this.user.SelectedCourses.length > 0) {
-            this.sortDays(this.user.SelectedCourses)
+        if (this.user.alreadySelected === true) {
+            if (this.user.SelectedCourses.length > 0) {
+                this.sortDays(this.user.SelectedCourses)
+            }
         }
-        // If not the 2 cases above 
-        else {
-            this.alreadySelected = false
-            // passes on the data to our method to sort 
-            this.sortDays(this.previewlist)
-        }
+        // passes on the data to our method to sort 
+        this.sortDays(this.previewlist)
     },
     computed: {
         // gets our data from vuex store
@@ -149,18 +147,30 @@ export default {
                 let list = array.filter(x => x.dayID === i)
                 if (list.length > 0) {
                     list.forEach(element => {
-                        if (element.ClassStartTime === "8")
-                            this.days[i - 1].subjectsoftheday[0] = element.name
-                        else if (element.ClassStartTime === "9:30")
-                            this.days[i - 1].subjectsoftheday[1] = element.name
-                        else if (element.ClassStartTime === "12:30")
-                            this.days[i - 1].subjectsoftheday[2] = element.name
-                        else if (element.ClassStartTime === "14")
-                            this.days[i - 1].subjectsoftheday[3] = element.name
-                        else if (element.ClassStartTime === "15:30")
-                            this.days[i - 1].subjectsoftheday[4] = element.name
-                        else if (element.ClassStartTime === "17")
-                            this.days[i - 1].subjectsoftheday[5] = element.name
+                        if (element.ClassStartTime === "8") {
+                            this.days[i - 1].subjectsoftheday[0] = ''
+                            this.days[i - 1].subjectsoftheday[0] += element.name
+                        }
+                        else if (element.ClassStartTime === "9:30") {
+                            this.days[i - 1].subjectsoftheday[1] = ''
+                            this.days[i - 1].subjectsoftheday[1] += element.name
+                        }
+                        else if (element.ClassStartTime === "12:30") {
+                            this.days[i - 1].subjectsoftheday[2] = ''
+                            this.days[i - 1].subjectsoftheday[2] += element.name
+                        }
+                        else if (element.ClassStartTime === "14") {
+                            this.days[i - 1].subjectsoftheday[3] = ''
+                            this.days[i - 1].subjectsoftheday[3] += element.name
+                        }
+                        else if (element.ClassStartTime === "15:30") {
+                            this.days[i - 1].subjectsoftheday[4] = ''
+                            this.days[i - 1].subjectsoftheday[4] += element.name
+                        }
+                        else if (element.ClassStartTime === "17") {
+                            this.days[i - 1].subjectsoftheday[5] = ''
+                            this.days[i - 1].subjectsoftheday[5] += element.name
+                        }
                     });
                 }
             }

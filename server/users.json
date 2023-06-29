@@ -9,7 +9,8 @@
     "phoneNumber": "09129360130",
     "password": "0150231016",
     "StudyField": "computer",
-    "SelectedCourses": []
+    "SelectedCourses": [],
+    "alreadySelected" : false
   },
   {
     "firstName": "آرش",
@@ -21,6 +22,7 @@
     "phoneNumber": "09199061428",
     "password": "0150231016",
     "StudyField": "electronic",
-    "SelectedCourses": []
+    "SelectedCourses": [],
+    "alreadySelected" : false
   }
 ]

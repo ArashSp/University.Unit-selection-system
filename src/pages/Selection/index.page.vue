@@ -1,6 +1,6 @@
 <template>
     <!-- this tag allows me to change the direction to "Right to left" -->
-    <v-locale-provider rtl> 
+    <v-locale-provider rtl>
         <div>
             <v-row class="mt-15" justify="center" align="center">
                 <v-col cols="10" xl="3" lg="3" md="3" sm="10" xs="10">
@@ -134,7 +134,7 @@ export default {
 
         // requests the subject data related to study field
         let obj = {
-            request: this.user.StudyField,
+            request: this.user,
         }
         // make data into Json
         const data = JSON.stringify(obj);
@@ -167,10 +167,40 @@ export default {
         // if the user already picked subjects
         if (this.previewlist.length > 0) {
             this.previewlist.forEach(element => {
-                this.totalSelectedUnit += parseInt(element.unit)
                 this.selectedsubjectID.push(element.id)
                 this.previewListHere.push(element.rootID)
+
+                this.totalSelectedUnit += parseInt(element.unit)
+                if (element.type === "Foundation")
+                    this.FoundationUnitCount += parseInt(element.unit)
+                else if (element.type === "General")
+                    this.GeneralUntiCount += parseInt(element.unit)
+                else if (element.type === "Professional")
+                    this.ProfessionalUnitCount += parseInt(element.unit)
+                else if (element.type === "Generalskill")
+                    this.GeneralskillUnitCount += parseInt(element.unit)
             });
+        }
+        // if already finished subject Selection
+        if (this.user.alreadySelected === true) {
+            if (this.user.SelectedCourses.length > 0) {
+                this.user.SelectedCourses.forEach(element => {
+                    this.$store.dispatch('AddToPreview', element)
+                    this.selectedsubjectID.push(element.id)
+                    this.previewListHere.push(element.rootID)
+
+                    this.totalSelectedUnit += parseInt(element.unit)
+                    if (element.type === "Foundation")
+                        this.FoundationUnitCount += parseInt(element.unit)
+                    else if (element.type === "General")
+                        this.GeneralUntiCount += parseInt(element.unit)
+                    else if (element.type === "Professional")
+                        this.ProfessionalUnitCount += parseInt(element.unit)
+                    else if (element.type === "Generalskill")
+                        this.GeneralskillUnitCount += parseInt(element.unit)
+                });
+            }
+
         }
 
     },
@@ -236,13 +266,13 @@ export default {
                 // Adds the units to their respective variables
                 this.totalSelectedUnit += parseInt(item.unit)
                 if (item.type === "Foundation")
-                    this.FoundationUnitCount += item.unit
+                    this.FoundationUnitCount += parseInt(item.unit)
                 else if (item.type === "General")
-                    this.GeneralUntiCount += item.unit
+                    this.GeneralUntiCount += parseInt(item.unit)
                 else if (item.type === "Professional")
-                    this.ProfessionalUnitCount += item.unit
+                    this.ProfessionalUnitCount += parseInt(item.unit)
                 else if (item.type === "Generalskill")
-                    this.GeneralskillUnitCount += item.unit
+                    this.GeneralskillUnitCount += parseInt(item.unit)
 
                 // Handles Store and css
                 this.$store.dispatch('AddToPreview', item)
@@ -258,13 +288,13 @@ export default {
                 // removes the units from their respective variables
                 this.totalSelectedUnit -= parseInt(item.unit)
                 if (item.type === "Foundation")
-                    this.FoundationUnitCount -= item.unit
+                    this.FoundationUnitCount -= parseInt(item.unit)
                 else if (item.type === "General")
-                    this.GeneralUntiCount -= item.unit
+                    this.GeneralUntiCount -= parseInt(item.unit)
                 else if (item.type === "Professional")
-                    this.ProfessionalUnitCount -= item.unit
+                    this.ProfessionalUnitCount -= parseInt(item.unit)
                 else if (item.type === "Generalskill")
-                    this.GeneralskillUnitCount -= item.unit
+                    this.GeneralskillUnitCount -= parseInt(item.unit)
 
                 // Handles Store and css
                 this.$store.dispatch('DeleteFromPreview', item)

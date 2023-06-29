@@ -72,12 +72,7 @@ export default {
               })
               this.$store.dispatch("setUser", res.data.data)
               console.log(res.data.data)
-              if (res.data.data.SelectedCourses.length > 0) {
-                this.$router.push('/Preview')
-              }
-              else {
-                this.$router.push('/Selection')
-              }
+              this.$router.push('/Selection')
             }
             else {
               Swal.fire({

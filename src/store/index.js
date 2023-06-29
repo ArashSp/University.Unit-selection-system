@@ -17,6 +17,7 @@ function createStore() {
         passedSubjects: [],
         StudyField: "",
         SelectedCourses: [],
+        alreadySelected: false,
       },
       subjectList: [],
       SubjectListPreview: [],
@@ -61,6 +62,7 @@ function createStore() {
         state.user.passedSubjects = payload.passedSubjects;
         state.user.StudyField = payload.StudyField;
         state.user.SelectedCourses = payload.SelectedCourses;
+        state.user.alreadySelected = payload.alreadySelected;
 
         state.SubjectListPreview = [];
       },
