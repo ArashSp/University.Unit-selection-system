@@ -3,7 +3,7 @@
     <v-locale-provider rtl>
         <div>
             <v-row class="mt-15" justify="center" align="center">
-                <v-col cols="10" xl="2" lg="2" md="2" sm="10" xs="10">
+                <v-col cols="10" xl="3" lg="3" md="3" sm="10" xs="10">
                     <!-- First Table contaning subject List -->
                     <v-card variant="outlined">
                         <v-card-text>
@@ -64,9 +64,12 @@
                                                 مهارت عمومی
                                             </span>
                                         </td>
-                                        <td>
+                                        <td v-if="subject.ClassDates != ''">
                                             {{ subject.ClassDates }} {{ subject.ClassStartTime }} - {{ subject.ClassEndTime
                                             }}
+                                        </td>
+                                        <td v-else>
+
                                         </td>
 
                                         <td> {{ subject.teacherName }}</td>
@@ -74,8 +77,12 @@
                                             {{ subject.classPlace }}
                                         </td>
 
-                                        <td>
+                                        <td v-if="subject.ExamDate != ''">
                                             {{ subject.ExamDay }} {{ subject.ExamDate }} {{ subject.ExamMonth }} ساعت {{
+                                                subject.ExamTime }}
+                                        </td>
+                                        <td v-else>
+                                            {{ subject.ExamDay }} {{ subject.ExamDate }} {{ subject.ExamMonth }} {{
                                                 subject.ExamTime }}
                                         </td>
                                         <td>
@@ -107,8 +114,9 @@
             <v-row class="mt-15" justify="center" align="center">
                 <v-col cols="10" xl="6" lg="6" md="6" sm="10" xs="10">
                     <!-- button -->
-                    <v-btn :disabled="totalSelectedUnit > maxUnit" class=" font-weight-bold py-7  mb-6" block
-                        variant="outlined" rounded="lg" size="large" color="primary" @click="goToPreview()"> نمایش تمام واحد
+                    <v-btn :disabled="totalSelectedUnit > maxUnit || totalSelectedUnit < 8"
+                        class=" font-weight-bold py-7  mb-6" block variant="outlined" rounded="lg" size="large"
+                        color="primary" @click="goToPreview()"> نمایش تمام واحد
                         های انتخاب شده در جدول هفتگی</v-btn>
 
                     <!-- shows Unit Count -->
@@ -191,14 +199,17 @@ export default {
                     obj = {
                         name: element.name,
                         rootID: element.rootID,
-                        unit: element.unit
+                        unit: element.unit,
+                        RequiredSubjects: element.RequiredSubjects
                     }
                     this.tableHeaderData.push(obj)
-                });
-            })
-
-        // Adds data to the List 
-        this.subjectListFilter = this.subjectlistAll
+                })
+                // remove duplicate items
+                let jsonObject = this.tableHeaderData.map(JSON.stringify);
+                let uniqueSet = new Set(jsonObject);
+                let uniqueArray = Array.from(uniqueSet).map(JSON.parse);
+                this.tableHeaderData = uniqueArray
+            });
 
         // Sorts data based on day of the week 
         this.subjectListFilter.sort(function (a, b) {
@@ -267,7 +278,7 @@ export default {
                 " استاد",
                 "مکان برگزاری کلاس",
                 "زمان امتحان ",
-                "پیش نیاز",
+                "پیشنیاز",
                 "ظرفیت",
             ],
 

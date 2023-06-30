@@ -5,12 +5,13 @@
     "Average": "19",
     "currentSemester": "3",
     "StudentID": "00111040302010",
-    "passedSubjects": ["1001"],
+    "passedSubjects": [],
+    "passedSubjectsCount": 0,
     "phoneNumber": "09129360130",
     "password": "0150231016",
-    "StudyField": "computer",
+    "StudyField": "Computer",
     "SelectedCourses": [],
-    "alreadySelected" : false
+    "alreadySelected": false
   },
   {
     "firstName": "آرش",
@@ -18,11 +19,12 @@
     "Average": "19",
     "currentSemester": "3",
     "StudentID": "00111040302010",
-    "passedSubjects": [],
+    "passedSubjects": ["2001"],
+    "passedSubjectsCount": 0,
     "phoneNumber": "09199061428",
     "password": "0150231016",
-    "StudyField": "electronic",
+    "StudyField": "Electronics",
     "SelectedCourses": [],
-    "alreadySelected" : false
+    "alreadySelected": false
   }
 ]

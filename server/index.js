@@ -72,8 +72,10 @@ async function startServer() {
           currentSemester: element.currentSemester,
           StudentID: element.StudentID,
           passedSubjects: element.passedSubjects,
+          passedSubjectsCount: element.passedSubjectsCount,
           SelectedCourses: element.SelectedCourses,
           alreadySelected: element.alreadySelected,
+          StudyField: element.StudyField,
         };
       });
     } else {
@@ -88,21 +90,56 @@ async function startServer() {
   // returns the subject list according to studyfield
   app.post("/Selection/SubjectData", (req, res) => {
     // filter based on study field
-    var list = subjectList.filter(
-      (x) =>
-        x.relatedCourse === req.body.request.StudyField ||
-        x.relatedCourse === "all"
-    );
-    // filter based on passed subjects
-    list.filter((x) => req.body.request.passedSubjects.includes(!x.id));
-    // filter based on  passed Required units
-    if (req.body.request.currentSemester < 4) {
-      list.filter((x) =>
-        req.body.request.passedSubjects.includes(x.passedUnitRequired)
-      );
-    }
+    var list = [];
+    subjectList.forEach((element) => {
+      if (element.relatedCourse == req.body.request.StudyField) {
+        list.push(element);
+      } else if (element.relatedCourse == "all") {
+        list.push(element);
+      }
+    });
 
-    res.json({ subjectList: list });
+    // filter based on passed subjects
+    let list2 = [];
+    list.forEach((element) => {
+      if (req.body.request.passedSubjects.length > 0) {
+        req.body.request.passedSubjects.forEach((element2) => {
+          if (element2 === element.rootID) {
+          } else {
+            list2.push(element);
+          }
+        });
+      } else {
+        list2.push(element);
+      }
+    });
+
+    // filter based on passed subjects 2
+    let objectIndex2 = userlist.findIndex((obj) => obj.phoneNumber === userID);
+
+    let list3 = [];
+    list2.forEach((element) => {
+      if (element.RequiredSubjectsID.length == 0) {
+        list3.push(element);
+      } else if (element.RequiredSubjectsID.length > 0) {
+        element.RequiredSubjectsID.forEach((element2) => {
+          if (userlist[objectIndex2].passedSubjects.includes(element2)) {
+            list3.push(element);
+          }
+        });
+      }
+    });
+
+    //filter based on passed subject count
+    let list4 = [];
+    list3.forEach((element) => {
+      let passedUnitRequired = parseInt(element.passedUnitRequired);
+      if (req.body.request.passedSubjectsCount >= passedUnitRequired) {
+        list4.push(element);
+      }
+    });
+
+    res.json({ subjectList: list4 });
   });
 
   // returns the response of submitting unit list and handles the process

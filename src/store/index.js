@@ -15,6 +15,7 @@ function createStore() {
         firstName: "",
         lastName: "",
         passedSubjects: [],
+        passedSubjectsCount: 0,
         StudyField: "",
         SelectedCourses: [],
         alreadySelected: false,
@@ -37,11 +38,11 @@ function createStore() {
         if (state.user.Average >= 17 && state.user.Average <= 20) {
           return 24;
         } else if (state.user.Average < 17 && state.user.Average >= 12) {
-          if (state.user.currentSemester === 4) {
+          if (state.user.currentSemester >= 4) {
             return 24;
           } else return 20;
         } else if (state.user.Average < 12) {
-          if (state.user.currentSemester === 4) {
+          if (state.user.currentSemester >= 4) {
             return 24;
           } else return 11;
         }
@@ -60,6 +61,7 @@ function createStore() {
         state.user.firstName = payload.firstName;
         state.user.lastName = payload.lastName;
         state.user.passedSubjects = payload.passedSubjects;
+        state.user.passedSubjectsCount = payload.passedSubjectsCount;
         state.user.StudyField = payload.StudyField;
         state.user.SelectedCourses = payload.SelectedCourses;
         state.user.alreadySelected = payload.alreadySelected;
@@ -101,6 +103,7 @@ function createStore() {
         state.SubjectListPreview = [];
       },
       CHECK_CONFLICT(state) {
+        let hasConflict = false;
         state.SubjectListPreview.forEach((element) => {
           let list = state.SubjectListPreview.filter(
             (x) => x.dayID === element.dayID
@@ -110,8 +113,8 @@ function createStore() {
               let list2 = list.filter(
                 (x) => x.ClassStartTime === element.ClassStartTime
               );
-
               if (list2.length > 1) {
+                hasConflict = true;
                 let title = "کلاس درس های ";
                 for (let i = 0; i < list2.length; i++) {
                   title += list2[i].name + " و ";
@@ -126,11 +129,11 @@ function createStore() {
                   confirmButtonText: "متوجه شدم",
                 });
               } else {
-                router.push("/Preview");
+                hasConflict = false;
               }
             });
           } else {
-            router.push("/Preview");
+            if (hasConflict === false) router.push("/Preview");
           }
         });
       },
