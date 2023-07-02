@@ -98,7 +98,7 @@
                                                 title="حذف کردن واحد به سبد " size="x-small" color="primary" class="dark"
                                                 icon="mdi-trash-can" @click.native="removeSubejectFromList(subject)">
                                             </v-btn>
-                                            <v-btn v-else variant="tonal" title="اضافه کردن واحد به سبد " size="x-small"
+                                            <v-btn v-else variant="tonal" title="اضافه کردن واحد به سبد " size="x-small" :disabled="subject.quota === 0"
                                                 color="primary" class="dark" icon="mdi-plus"
                                                 @click.native="addSubjectToList(subject)">
                                             </v-btn>
