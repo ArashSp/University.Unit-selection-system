@@ -45,7 +45,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="subject in subjectListFilter" class="text-center Selectionrow"
-                                        v-show="subject.quota !== 0"
+                                       
                                         :class="{ selectedSubjectinList: selectedsubjectID.includes(subject.id) }">
                                         <td>
                                             <span v-if="subject.type == 'Foundation'">
@@ -315,7 +315,7 @@ export default {
             // Sends An Error if the subject already exists in the list
             if (this.previewListHere.includes(item.rootID)) {
                 Swal.fire({
-                    text: "شما در در حال حاضر یک بازه زمانی برای این درس را انتخاب کرده اید ",
+                    text: "شما در  حال حاضر یک بازه زمانی برای این درس را انتخاب کرده اید ",
                     icon: "error",
                     confirmButtonText: "باشه"
                 })

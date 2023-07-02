@@ -3,7 +3,8 @@
     <v-locale-provider rtl>
         <div>
             <v-row class="mt-15 mb-6" align="center" justify="center">
-                <v-col cols="10" class="text-center"> <span class=" text-h5  text-h5 text-md-h4">جدول هفتگی انتخاب واحد</span></v-col>
+                <v-col cols="10" class="text-center"> <span class=" text-h5  text-h5 text-md-h4">جدول هفتگی انتخاب
+                        واحد</span></v-col>
                 <v-col cols="10">
                     <!-- table Containing our Data  -->
                     <v-card variant="outlined">
@@ -49,7 +50,7 @@
                 </v-col>
                 <v-col cols="10 " xl="4" lg="4" md="4" sm="10" xs="10">
                     <v-btn class="py-7 mb-6" block variant="outlined" rounded="lg" size="large" color="primary"
-                        @click="submit()">ثبت نهایی</v-btn>
+                        :disabled="hasConflict.length > 0" @click="submit()">ثبت نهایی</v-btn>
                 </v-col>
             </v-row>
         </div>
@@ -112,7 +113,8 @@ export default {
             ],
             // Data Arrays 
             dataList: [],
-            // Controls if the user has already finished unit Selection
+            // Controls if there is conflict
+            hasConflict: [""]
         }
     },
     mounted() {
@@ -127,6 +129,8 @@ export default {
         }
         // passes on the data to our method to sort 
         this.sortDays(this.previewlist)
+
+
     },
     computed: {
         // gets our data from vuex store
@@ -138,36 +142,59 @@ export default {
     methods: {
         // Sorts all the selected subjects into their own timeslot for the table
         sortDays(array) {
+            this.hasConflict = []
+            let index = [0, 0, 0, 0, 0, 0]
             for (let i = 0; i < 7; i++) {
                 let list = array.filter(x => x.dayID === i)
                 if (list.length > 0) {
                     list.forEach(element => {
                         if (element.ClassStartTime === "8") {
-                            this.days[i - 1].subjectsoftheday[0] = ''
+                            index[0] += 1
                             this.days[i - 1].subjectsoftheday[0] += element.name
+                            if (index[0] > 1) {
+                                this.hasConflict[0] += element.name
+                            }
                         }
                         else if (element.ClassStartTime === "9:30") {
-                            this.days[i - 1].subjectsoftheday[1] = ''
+                            index[1] += 1
                             this.days[i - 1].subjectsoftheday[1] += element.name
+                            if (index[1] > 1) {
+                                this.hasConflict[0] += element.name
+                            }
                         }
                         else if (element.ClassStartTime === "12:30") {
-                            this.days[i - 1].subjectsoftheday[2] = ''
+                            index[2] += 1
                             this.days[i - 1].subjectsoftheday[2] += element.name
+                            if (index[2] > 1) {
+                                this.hasConflict[0] += element.name
+                            }
                         }
                         else if (element.ClassStartTime === "14") {
-                            this.days[i - 1].subjectsoftheday[3] = ''
+                            index[3] += 1
                             this.days[i - 1].subjectsoftheday[3] += element.name
+                            if (index[3] > 1) {
+                                this.hasConflict[0] += element.name
+                            }
                         }
                         else if (element.ClassStartTime === "15:30") {
-                            this.days[i - 1].subjectsoftheday[4] = ''
+                            index[4] += 1
                             this.days[i - 1].subjectsoftheday[4] += element.name
+                            if (index[4] > 1) {
+                                this.hasConflict[0] += element.name
+                            }
                         }
                         else if (element.ClassStartTime === "17") {
-                            this.days[i - 1].subjectsoftheday[5] = ''
+                            index[5] += 1
                             this.days[i - 1].subjectsoftheday[5] += element.name
+                            if (index[5] > 1) {
+                                this.hasConflict[0] += element.name
+                                console.log("this has 2 or more elements")
+                            }
                         }
                     });
                 }
+                console.log(this.hasConflict)
+                index = [0, 0, 0, 0, 0, 0]
             }
         },
         edit() {

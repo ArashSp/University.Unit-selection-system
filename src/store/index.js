@@ -128,7 +128,8 @@ function createStore() {
                   icon: "error",
                   confirmButtonText: "متوجه شدم",
                 });
-              } else {
+              } 
+              else {
                 hasConflict = false;
               }
             });
